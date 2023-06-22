@@ -13,3 +13,8 @@ run:
 run3:
 	@echo "Running app..."
 	@python3 app.py
+
+clean:
+	@echo "Cleaning up..."
+	@rm -rf __pycache__/
+	@rm -rf .pytest_cache/
