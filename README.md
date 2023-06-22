@@ -57,37 +57,4 @@ curl --location --request POST 'http://localhost:5000/api/v1/scrape' \
 }
 ```
 
-### POST /api/v1/process
-
-Process a text and return the processed data.
-```Python
-@app.route('/process', methods=['POST'])
-def process():
-    text = request.form.get('text')
-    if not text:
-        return 'Text is required', 400
-```
-
-#### Request
-
-```bash
-curl --location --request POST 'http://localhost:5000/api/v1/process' \
---form 'text="Pass the text to be processed here."'
-```
-
-#### Response
-
-```json
-{
-    "data": {
-        "text": "Pass the text to be processed here.",
-        "word_count": 7,
-        "character_count": 34,
-        "sentence_count": 1,
-        "average_sentence_length": 7.0,
-        "average_word_length": 4.857142857142857
-    }
-}
-```
-
 **Note:** For running the endpoints, it is recommended to use [Postman](https://www.postman.com/downloads/) or if not, you can use [cURL](https://curl.haxx.se/download.html) as shown above.

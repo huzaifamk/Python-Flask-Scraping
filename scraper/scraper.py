@@ -1,44 +1,14 @@
-from flask import request
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
-from db.database import mongo
-
-
-def check_lines(lines):
-    lines_with_more_than_two_words = []
-    for line in lines:
-        line = line.strip()
-
-        words = line.replace('\xa0', '').split()
-        if len(words) > 4:
-            lines_with_more_than_two_words.append(line)
-
-    data = []
-    dat1 = []
-
-    for line in list(set(lines_with_more_than_two_words)):
-        data.append(line)
-
-    record = {
-        'User_id': 'MllUlAtG9UWDUnzudOXL8HOjyCU2',
-        'Data': ''.join(data)
-    }
-    dat1.append(record)
-
-    print(dat1)
-    try:
-        mongo(dat1)  # call MongoDB function
-    except Exception as f:
-        print(f)
+from utils.utils import check_lines
 
 
 def scrape():
-    url = request.form.get('url')
-    if not url:
-        return 'URL is required', 400
-
+    print('Enter scraping link')
+    li = input()
+    url = str(li)  # Replace with the URL of the website you want to scrape
     options = webdriver.ChromeOptions()
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
@@ -62,41 +32,28 @@ def scrape():
     options.add_argument('--disable-features=IsolateOrigins,site-per-process')
     options.add_argument('--disable-site-isolation-trials')
     options.page_load_strategy = 'eager'
-
     driver: WebDriver = webdriver.Chrome(
         ChromeDriverManager().install(), options=options)
+    # Send a GET request to the website and retrieve the content
     driver.get(url)
     content = driver.page_source
 
     soup = BeautifulSoup(content, 'html.parser')
 
     elements = soup.find('body').text
-    # Rest of the code...
+    # print(elements)
+    ele = []
 
-    lines = elements.split('\n')
+    with open("text.txt", "w", encoding='utf-8') as f:
+        f.write(elements)
+    with open("text.txt", "r", encoding='utf-8') as f:
+        lines = f.readlines()
     new_lines = []
     for line in lines:
         line = line.strip()
         if line:
             new_lines.append(line)
 
-    check_lines(new_lines)  # Call function
+    print(new_lines)
 
-    return 'Scraping completed successfully'
-
-
-def process():
-    text = request.form.get('text')
-    if not text:
-        return 'Text is required', 400
-
-    lines = text.split('\n')
-    new_lines = []
-    for line in lines:
-        line = line.strip()
-        if line:
-            new_lines.append(line)
-
-    check_lines(new_lines)  # Call function
-
-    return 'Data processed successfully'
+    check_lines()
