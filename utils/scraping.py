@@ -1,18 +1,10 @@
-from flask import Flask, request
+from flask import request
 from bs4 import BeautifulSoup
-import pymongo
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
+from db.database import mongo
 
-app = Flask(__name__)
-
-def mongo(data):
-    # MongoDB function implementation
-    client = pymongo.MongoClient("use any of yours")  # server URL
-    db = client["blogster"]  # database
-    collection = db["userscrapped data"]  # collection
-    collection.insert_many(data)
 
 def check_lines(lines):
     lines_with_more_than_two_words = []
@@ -41,7 +33,7 @@ def check_lines(lines):
     except Exception as f:
         print(f)
 
-@app.route('/api/v1/scrape', methods=['POST'])
+
 def scrape():
     url = request.form.get('url')
     if not url:
@@ -71,7 +63,8 @@ def scrape():
     options.add_argument('--disable-site-isolation-trials')
     options.page_load_strategy = 'eager'
 
-    driver: WebDriver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver: WebDriver = webdriver.Chrome(
+        ChromeDriverManager().install(), options=options)
     driver.get(url)
     content = driver.page_source
 
@@ -91,7 +84,7 @@ def scrape():
 
     return 'Scraping completed successfully'
 
-@app.route('/process', methods=['POST'])
+
 def process():
     text = request.form.get('text')
     if not text:
@@ -107,6 +100,3 @@ def process():
     check_lines(new_lines)  # Call function
 
     return 'Data processed successfully'
-
-if __name__ == '__main__':
-    app.run()

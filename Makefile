@@ -8,8 +8,8 @@ install:
 
 run:
 	@echo "Running app..."
-	@python Blogster.py
+	@python app.py
 
 run3:
 	@echo "Running app..."
-	@python3 Blogster.py
+	@python3 app.py
