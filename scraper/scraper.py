@@ -1,3 +1,4 @@
+from flask import request
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -6,9 +7,7 @@ from utils.utils import check_lines
 
 
 def scrape():
-    print('Enter scraping link')
-    li = input()
-    url = str(li)  # Replace with the URL of the website you want to scrape
+    url = request.form.get('url')  # get URL from request body
     options = webdriver.ChromeOptions()
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
