@@ -21,6 +21,7 @@ make install # Install dependencies
 
 ```bash
 make run # Run the application (If not working, try `make run3`)
+**Note:** If facing errors, do `make clean` and then `make run` [`make clean` removes the `__pycache__` files]
 ```
 
 # Usage

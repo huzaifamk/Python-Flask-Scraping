@@ -16,5 +16,5 @@ run3:
 
 clean:
 	@echo "Cleaning up..."
-	@rm -rf __pycache__/
-	@rm -rf .pytest_cache/
+	@find . | grep -E "(__pycache__|\.pyc|\.pyo$$)" | xargs rm -rf
+	@echo "Done"
