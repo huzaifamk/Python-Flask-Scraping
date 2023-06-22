@@ -89,3 +89,5 @@ curl --location --request POST 'http://localhost:5000/api/v1/process' \
     }
 }
 ```
+
+**Note:** For running the endpoints, it is recommended to use [Postman](https://www.postman.com/downloads/) or if not, you can use [cURL](https://curl.haxx.se/download.html) as shown above.
