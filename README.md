@@ -31,7 +31,7 @@ make run # Run the application (If not working, try `make run3`)
 
 Scrape a website and return the scraped data.
 ```Python
-@app.route('/scrape', methods=['POST'])
+@app.route('/api/v1/scrape', methods=['POST'])
 def scrape():
     url = request.form.get('url')
     if not url:
@@ -45,7 +45,7 @@ curl --location --request POST 'http://localhost:5000/api/v1/scrape' \
 --form 'url="https://www.google.com"'
 ```
 
-#### Response
+#### Response [Example]
 
 ```json
 {
